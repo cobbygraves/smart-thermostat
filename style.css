@@ -18,12 +18,12 @@ input,
 select,
 option,
 button {
-  font-family: "Manrope", sans-serif;
+  font-family: 'Manrope', sans-serif;
   color: var(--text-primary);
 }
 
 body {
-  padding: 50px 0;
+  padding: 0 0 50px 0;
   min-height: 100vh;
   background-color: var(--bg-light);
   display: flex;
@@ -32,17 +32,17 @@ body {
 }
 
 .container {
-  padding: 30px;
+  padding: 10px;
   background-color: #ffffff;
   border-radius: 8px;
   cursor: pointer;
-  width: 450px;
+  width: 100%;
 }
 
 .main-container {
-  display: flex;
-  gap: 20px;
-  align-items: start;
+  display: block;
+  width: 100%;
+  /* padding: 30px; */
 }
 
 .main-content {
@@ -369,7 +369,7 @@ svg.point {
   padding-left: 10px; /* Add spacing between times */
 }
 
-@media only screen and (max-width: 470px) {
+/* @media only screen and (max-width: 470px) {
   .container {
     width: 360px;
   }
@@ -379,7 +379,7 @@ svg.point {
   .container {
     width: 320px;
   }
-}
+} */
 
 .powerOn {
   color: #ffae33;
@@ -390,4 +390,40 @@ span.room-status {
   /* border: solid 1px pink; */
   margin: 20px 0 0 0;
   color: #7c7c83;
+}
+
+.turn-all-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#turn-on-all {
+  padding: 5px;
+  border: none;
+  height: 45px;
+  font-size: 15px;
+  width: 150px;
+  background-color: #d9d9d9;
+  border-radius: 13px;
+  cursor: pointer;
+  color: black;
+  transition: background-color 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+@media screen and (min-width: 1024px) {
+  .main-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: start;
+    padding: 30px;
+  }
+
+  .container {
+    width: 450px;
+    padding: 20px;
+  }
 }

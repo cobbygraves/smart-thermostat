@@ -431,7 +431,7 @@ const generateRooms = () => {
           }">${room.currTemp > 24 ? 'Warming room to: ' : 'Cooling room to: '}${
       room.currTemp
     }°</span>
-        </div>
+    </div>
     `
   })
 
@@ -494,4 +494,17 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
   if (e.target.classList.contains('room-name')) {
     setSelectedRoom(e.target.parentNode.parentNode.id)
   }
+})
+
+const turnAcsON = document.querySelector('#turn-on-all')
+// event listener to turn on all AC's
+turnAcsON.addEventListener('click', () => {
+  rooms.forEach((room) => {
+    if (!room.airConditionerOn) {
+      room.toggleAircon()
+    }
+    generateRooms()
+  })
+  turnAcsON.style.background = '#FFAE33'
+  turnAcsON.innerHTML = 'Turn off all ACs'
 })
