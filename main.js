@@ -1,5 +1,5 @@
 // Room objects
-const rooms = [
+let rooms = [
   {
     name: 'Living Room',
     currTemp: 32,
@@ -453,3 +453,81 @@ turnAcsON.addEventListener('click', () => {
   turnAcsON.style.background = '#FFAE33'
   turnAcsON.innerHTML = 'Turn off all ACs'
 })
+
+//event listner to add a room to the array
+const addRoomButton = document.querySelector('#add-room');
+const modal = document.querySelector('#add-room-modal');
+const closeButton = document.querySelector('#close-modal');
+const roomNameInput = document.querySelector('#room-name'); 
+const roomButton = document.querySelector('#add-room-btn');
+
+// Open the modal when the button is clicked
+addRoomButton.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+// Close the modal when clicking outside of it
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// Close the modal when clicking the close button
+closeButton.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Add a room when the button is clicked
+roomButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  const roomName = roomNameInput.value;
+  if(roomName.trim() === '') return
+  const room = {
+    name: roomName,
+    currTemp: 25,
+    coldPreset: 20,
+    warmPreset: 32,
+    image: './assets/default-room.avif',
+    airConditionerOn: false,
+    startTime: '12:00',
+    endTime: '23:59',
+
+    setCurrTemp(temp) {
+      this.currTemp = temp
+    },
+
+    setColdPreset(newCold) {
+      this.coldPreset = newCold
+    },
+
+    setWarmPreset(newWarm) {
+      this.warmPreset = newWarm
+    },
+
+    decreaseTemp() {
+      this.currTemp--
+    },
+
+    increaseTemp() {
+      this.currTemp++
+    },
+    toggleAircon() {
+      this.airConditionerOn
+        ? (this.airConditionerOn = false)
+        : (this.airConditionerOn = true)
+    }
+  };
+  const updatedRooms = [...rooms, room];
+  rooms = updatedRooms;
+  generateRooms();
+  modal.style.display = 'none';
+  roomNameInput.value = '';
+  roomSelect.innerHTML = '';
+  rooms.forEach((room) => {
+    const option = document.createElement('option');
+    option.value = room.name;
+    option.textContent = room.name;
+    roomSelect.appendChild(option);
+  });
+});

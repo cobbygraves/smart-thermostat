@@ -31,6 +31,7 @@
       <div class="container animate__animated animate__fadeInUp">
         <div class="top-content">
           <h1 class="logo">Thermostat</h1>
+          <p id="add-room">Add Room +</p>
           <select id="rooms"></select>
         </div>
         <!-- Interior card -->
@@ -118,16 +119,27 @@
           </div>
         </div>
       </div>
-      <div class="container ">
-        <div
-          class="rooms-control animate__animated animate__fadeIn"
-        ></div>
+      <div class="container">
+        <div class="rooms-control animate__animated animate__fadeIn"></div>
         <div class="turn-all-container">
-        <button id="turn-on-all">Turn On All AC's</button>
-      </div>
+          <button id="turn-on-all">Turn On All AC's</button>
+        </div>
       </div>
     </div>
-
+    <!-- Add Room Modal -->
+    <div id="add-room-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add Room</h2>
+          <span id="close-modal">&times;</span>
+        </div>
+        <form>
+          <label for="room-name" >Enter Name:</label>
+          <input type="text" id="room-name" />
+          <button id="add-room-btn">Add</button>
+        </form>
+      </div>
+    </div>
     <!-- Ionicons -->
     <script
       type="module"
