@@ -188,6 +188,9 @@ const setIndicatorPoint = (currTemp) => {
   svgPoint.style.transform = `translate(${position.translateX}px, ${position.translateY}px)`
 }
 
+// Turn all acs on
+const turnAcsON = document.querySelector('#turn-on-all')
+
 // Handle the dropdown data
 const roomSelect = document.getElementById('rooms')
 
@@ -337,11 +340,13 @@ inputsDiv.addEventListener('click', (event) => {
       if (coolInput.value < 10 || coolInput.value > 24) {
         errorSpan.style.display = 'block'
         errorSpan.innerText = 'Enter valid temperatures (10° - 32°)'
+        return
       }
 
       if (warmInput.value < 25 || warmInput.value > 32) {
         errorSpan.style.display = 'block'
         errorSpan.innerText = 'Enter valid temperatures (10° - 32°)'
+        return
       }
       // Validation passed
       // Set current room's presets
@@ -352,7 +357,7 @@ inputsDiv.addEventListener('click', (event) => {
 
       coolInput.value = ''
       warmInput.value = ''
-      inputsDiv.classList.add('hidden')
+      errorSpan.style.display = 'none'
     }
   }
 })
@@ -377,36 +382,6 @@ document.getElementById('close').addEventListener('click', () => {
   warmInput.value = ''
 })
 
-// handle preset input data
-// document.getElementById('save').addEventListener('click', () => {
-//   const coolInput = document.getElementById('coolInput')
-//   const warmInput = document.getElementById('warmInput')
-//   const errorSpan = document.querySelector('.error')
-
-//   if (coolInput.value && warmInput.value) {
-//     // Validate the data
-//     if (coolInput.value < 10 || coolInput.value > 24) {
-//       errorSpan.style.display = 'block'
-//       errorSpan.innerText = 'Enter valid temperatures (10° - 32°)'
-//     }
-
-//     if (warmInput.value < 25 || warmInput.value > 32) {
-//       errorSpan.style.display = 'block'
-//       errorSpan.innerText = 'Enter valid temperatures (10° - 32°)'
-//     }
-//     // Validation passed
-//     // Set current room's presets
-//     const currRoom = rooms.find((room) => room.name === selectedRoom)
-
-//     currRoom.setColdPreset(coolInput.value)
-//     currRoom.setWarmPreset(warmInput.value)
-
-//     coolInput.value = ''
-//     warmInput.value = ''
-//   }
-// })
-
-// Rooms Control
 // Generate rooms
 const generateRooms = () => {
   const roomsControlContainer = document.querySelector('.rooms-control')
@@ -487,6 +462,12 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
     const room = rooms.find(
       (room) => room.name === e.target.parentNode.parentNode.id
     )
+
+    if (turnAcsON.innerHTML === 'Turn off all ACs') {
+      turnAcsON.style.background = ''
+      turnAcsON.innerHTML = 'Turn on all ACs'
+    }
+
     room.toggleAircon()
     generateRooms()
   }
@@ -496,7 +477,6 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
   }
 })
 
-const turnAcsON = document.querySelector('#turn-on-all')
 // event listener to turn on all AC's
 turnAcsON.addEventListener('click', () => {
   rooms.forEach((room) => {

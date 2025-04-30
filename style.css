@@ -406,11 +406,11 @@ span.room-status {
   font-size: 15px;
   width: 150px;
   background-color: #d9d9d9;
-  border-radius: 13px;
+  border-radius: 25px;
   cursor: pointer;
-  color: black;
+  color: #58516d;
   transition: background-color 0.3s ease-in-out;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 @media screen and (min-width: 1024px) {
