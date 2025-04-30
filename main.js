@@ -213,7 +213,6 @@ rooms.forEach((room) => {
 })
 
 // Set current temperature to currently selected room
-
 const setSelectedRoom = (selectedRoomName) => {
   const room = rooms.find((currRoom) => currRoom.name === selectedRoomName)
   //console.log(room)
@@ -237,48 +236,27 @@ roomSelect.addEventListener('change', function () {
   setSelectedRoom(selectedRoom)
 })
 
-//warm and cool buttons
-const warmBtn = document.getElementById('warm')
-const coolBtn = document.getElementById('cool')
-
-//warm button handler
-warmBtn.addEventListener('click', () => {
-  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
-  room.setCurrTemp(room.warmPreset)
-  setIndicatorPoint(room.warmPreset)
-  setIndicatorPoint(room.warmPreset)
-  currentTemp.textContent = `${room.warmPreset}°`
-
-  generateRooms()
-
-  setOverlay(room)
-
-  // warmBtn.style.backgroundColor = '#d9d9d9'
-  // coolBtn.style.backgroundColor = '#d9d9d9'
-
-  document.querySelector('.currentTemp').innerText = `${room.warmPreset}°`
-})
-
-//cooled button handler
-coolBtn.addEventListener('click', () => {
-  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
-  room.setCurrTemp(room.coldPreset)
-  setIndicatorPoint(room.coldPreset)
-  currentTemp.textContent = `${room.coldPreset}°`
-
-  generateRooms()
-
-  setOverlay(room)
-
-  // warmBtn.style.backgroundColor = '#d9d9d9'
-  // coolBtn.style.backgroundColor = '#d9d9d9'
-
-  document.querySelector('.currentTemp').innerText = `${room.coldPreset}°`
-})
-
 // Set preset temperatures
 const defaultSettings = document.querySelector('.default-settings')
-defaultSettings.addEventListener('click', function (e) {})
+defaultSettings.addEventListener('click', function (event) {
+  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
+  if (event.target.id === 'warm') {
+    // Handle warm button click
+    room.setCurrTemp(room.warmPreset)
+    setIndicatorPoint(room.warmPreset)
+    setIndicatorPoint(room.warmPreset)
+    currentTemp.textContent = `${room.warmPreset}°`
+    document.querySelector('.currentTemp').innerText = `${room.warmPreset}°`
+  } else if (event.target.id === 'cool') {
+    // Handle cold button click
+    room.setCurrTemp(room.coldPreset)
+    setIndicatorPoint(room.coldPreset)
+    currentTemp.textContent = `${room.coldPreset}°`
+    document.querySelector('.currentTemp').innerText = `${room.coldPreset}°`
+  }
+  generateRooms()
+  setOverlay(room)
+})
 
 // Increase temperature
 document.getElementById('increase').addEventListener('click', () => {
@@ -293,14 +271,8 @@ document.getElementById('increase').addEventListener('click', () => {
 
   setIndicatorPoint(room.currTemp)
   currentTemp.textContent = `${room.currTemp}°`
-
   generateRooms()
-
   setOverlay(room)
-
-  // warmBtn.style.backgroundColor = '#d9d9d9'
-  // coolBtn.style.backgroundColor = '#d9d9d9'
-
   document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
 })
 
@@ -313,17 +285,10 @@ document.getElementById('reduce').addEventListener('click', () => {
     // decreaseRoomTemperature()
     room.decreaseTemp()
   }
-
   setIndicatorPoint(room.currTemp)
   currentTemp.textContent = `${room.currTemp}°`
-
   generateRooms()
-
   setOverlay(room)
-
-  // warmBtn.style.backgroundColor = '#d9d9d9'
-  // coolBtn.style.backgroundColor = '#d9d9d9'
-
   document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
 })
 
