@@ -414,13 +414,13 @@ const generateRooms = () => {
   }">
    <div>      
   <label for="start">Start Time</label>
-  <input type="time" id="start-time" name="start" require/>
+  <input  id="${room.name}-start-time" class="start-time" name="start" require/>
   </div>
 
   <div>
   <label for="stop">Stop Time</label>
   <div class="stop-container">
-  <input type="time" id="stop-time" name="stop" required/>
+  <input  id="${room.name}-stop-time" class="stop-time" name="stop" required/>
    <button id="submit-schedule">Schedule</button>
   </div>
   </div>
@@ -509,10 +509,13 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
     const room = rooms.find(
       (room) => room.name === e.target.parentNode.parentNode.parentNode.parentNode.id
     )
-    console.log(room)
-    // room.setSchedule()
-    // room.toggleSchedule()
-    // generateRooms()
+    const startTimeValue = document.querySelector(`#${room.name}-start-time`).value
+    const endTimeValue = document.querySelector(`#${room.name}-stop-time`).value
+    room.startTime = startTimeValue
+    room.endTime = endTimeValue
+    room.toggleSchedule()
+    generateRooms()
+  
   }
 
   if (e.target.classList.contains('room-name')) {
