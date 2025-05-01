@@ -9,11 +9,16 @@ let rooms = [
     airConditionerOn: false,
     startTime: '16:30',
     endTime: '20:00',
-
+    showSchedule: false,
     setCurrTemp(temp) {
       this.currTemp = temp
     },
-
+    setStartTime(time) {
+      this.startTime = time
+    },
+    setEndTime(time) {
+      this.endTime = time
+    },
     setColdPreset(newCold) {
       this.coldPreset = newCold
     },
@@ -33,6 +38,11 @@ let rooms = [
       this.airConditionerOn
         ? (this.airConditionerOn = false)
         : (this.airConditionerOn = true)
+    },
+    toggleSchedule() {
+      this.showSchedule
+        ? (this.showSchedule = false)
+        : (this.showSchedule = true)
     }
   },
   {
@@ -44,11 +54,16 @@ let rooms = [
     airConditionerOn: false,
     startTime: '16:30',
     endTime: '20:00',
-
+    showSchedule: false,
     setCurrTemp(temp) {
       this.currTemp = temp
     },
-
+    setStartTime(time) {
+      this.startTime = time
+    },
+    setEndTime(time) {
+      this.endTime = time
+    },
     setColdPreset(newCold) {
       this.coldPreset = newCold
     },
@@ -69,6 +84,11 @@ let rooms = [
       this.airConditionerOn
         ? (this.airConditionerOn = false)
         : (this.airConditionerOn = true)
+    },
+    toggleSchedule() {
+      this.showSchedule
+        ? (this.showSchedule = false)
+        : (this.showSchedule = true)
     }
   },
   {
@@ -80,11 +100,16 @@ let rooms = [
     airConditionerOn: false,
     startTime: '16:30',
     endTime: '20:00',
-
+    showSchedule: false,
     setCurrTemp(temp) {
       this.currTemp = temp
     },
-
+    setStartTime(time) {
+      this.startTime = time
+    },
+    setEndTime(time) {
+      this.endTime = time
+    },
     setColdPreset(newCold) {
       this.coldPreset = newCold
     },
@@ -104,6 +129,11 @@ let rooms = [
       this.airConditionerOn
         ? (this.airConditionerOn = false)
         : (this.airConditionerOn = true)
+    },
+    toggleSchedule() {
+      this.showSchedule
+        ? (this.showSchedule = false)
+        : (this.showSchedule = true)
     }
   },
   {
@@ -115,11 +145,16 @@ let rooms = [
     airConditionerOn: false,
     startTime: '16:30',
     endTime: '20:00',
-
+    showSchedule: false,
     setCurrTemp(temp) {
       this.currTemp = temp
     },
-
+    setStartTime(time) {
+      this.startTime = time
+    },
+    setEndTime(time) {
+      this.endTime = time
+    },
     setColdPreset(newCold) {
       this.coldPreset = newCold
     },
@@ -139,6 +174,11 @@ let rooms = [
       this.airConditionerOn
         ? (this.airConditionerOn = false)
         : (this.airConditionerOn = true)
+    },
+    toggleSchedule() {
+      this.showSchedule
+        ? (this.showSchedule = false)
+        : (this.showSchedule = true)
     }
   }
 ]
@@ -357,6 +397,9 @@ const generateRooms = () => {
     <div class="room-control" id="${room.name}">
           <div class="top">
             <h3 class="room-name">${room.name} - ${room.currTemp}°</h3>
+           
+            <button class="schedule-btn"><ion-icon name="time-outline"></ion-icon></button>
+           
             <button class="switch">
               <ion-icon name="power-outline" class="${
                 room.airConditionerOn ? 'powerOn' : ''
@@ -366,6 +409,22 @@ const generateRooms = () => {
 
           ${displayTime(room)}
          
+  <div class="schedule-form ${
+    room.showSchedule ? 'show-schedule' : 'hide-schedule'
+  }">
+   <div>      
+  <label for="start">Start Time</label>
+  <input type="time" id="start-time" name="start" require/>
+  </div>
+
+  <div>
+  <label for="stop">Stop Time</label>
+  <div class="stop-container">
+  <input type="time" id="stop-time" name="stop" required/>
+   <button id="submit-schedule">Schedule</button>
+  </div>
+  </div>
+</div>
           <span class="room-status" style="display: ${
             room.airConditionerOn ? '' : 'none'
           }">${room.currTemp > 24 ? 'Warming room to: ' : 'Cooling room to: '}${
@@ -422,6 +481,7 @@ const displayTime = (room) => {
 
 generateRooms()
 
+//Turn individual AC's on
 document.querySelector('.rooms-control').addEventListener('click', (e) => {
   if (e.target.classList.contains('switch')) {
     const room = rooms.find(
@@ -435,6 +495,24 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
 
     room.toggleAircon()
     generateRooms()
+  } else if (
+    e.target.classList.contains('schedule-btn') &&
+    e.target.parentNode.parentNode.classList.contains('room-control')
+  ) {
+    const room = rooms.find(
+      (room) => room.name === e.target.parentNode.parentNode.id
+    )
+    room.toggleSchedule()
+    generateRooms()
+  }else if(e.target.innerHTML === 'Schedule' &&
+  e.target.parentNode.parentNode.parentNode.parentNode.classList.contains('room-control')){
+    const room = rooms.find(
+      (room) => room.name === e.target.parentNode.parentNode.parentNode.parentNode.id
+    )
+    console.log(room)
+    // room.setSchedule()
+    // room.toggleSchedule()
+    // generateRooms()
   }
 
   if (e.target.classList.contains('room-name')) {
@@ -444,6 +522,17 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
 
 // event listener to turn on all AC's
 turnAcsON.addEventListener('click', () => {
+  if (turnAcsON.innerHTML === 'Turn Off All ACs') {
+    rooms.forEach((room) => {
+      if (room.airConditionerOn) {
+        room.toggleAircon()
+      }
+      generateRooms()
+    })
+    turnAcsON.style.background = '#D9D9D9'
+    turnAcsON.innerHTML = 'Turn On All ACs'
+    return
+  }
   rooms.forEach((room) => {
     if (!room.airConditionerOn) {
       room.toggleAircon()
@@ -451,38 +540,38 @@ turnAcsON.addEventListener('click', () => {
     generateRooms()
   })
   turnAcsON.style.background = '#FFAE33'
-  turnAcsON.innerHTML = 'Turn off all ACs'
+  turnAcsON.innerHTML = 'Turn Off All ACs'
 })
 
 //event listner to add a room to the array
-const addRoomButton = document.querySelector('#add-room');
-const modal = document.querySelector('#add-room-modal');
-const closeButton = document.querySelector('#close-modal');
-const roomNameInput = document.querySelector('#room-name'); 
-const roomButton = document.querySelector('#add-room-btn');
+const addRoomButton = document.querySelector('#add-room')
+const modal = document.querySelector('#add-room-modal')
+const closeButton = document.querySelector('#close-modal')
+const roomNameInput = document.querySelector('#room-name')
+const roomButton = document.querySelector('#add-room-btn')
 
 // Open the modal when the button is clicked
 addRoomButton.addEventListener('click', () => {
-  modal.style.display = 'block';
-});
+  modal.style.display = 'block'
+})
 
 // Close the modal when clicking outside of it
 window.addEventListener('click', (event) => {
   if (event.target === modal) {
-    modal.style.display = 'none';
+    modal.style.display = 'none'
   }
-});
+})
 
 // Close the modal when clicking the close button
 closeButton.addEventListener('click', () => {
-  modal.style.display = 'none';
-});
+  modal.style.display = 'none'
+})
 
 // Add a room when the button is clicked
 roomButton.addEventListener('click', (event) => {
-  event.preventDefault();
-  const roomName = roomNameInput.value;
-  if(roomName.trim() === '') return
+  event.preventDefault()
+  const roomName = roomNameInput.value
+  if (roomName.trim() === '') return
   const room = {
     name: roomName,
     currTemp: 25,
@@ -492,11 +581,16 @@ roomButton.addEventListener('click', (event) => {
     airConditionerOn: false,
     startTime: '12:00',
     endTime: '23:59',
-
+    showSchedule: false,
     setCurrTemp(temp) {
       this.currTemp = temp
     },
-
+    setStartTime(time) {
+      this.startTime = time
+    },
+    setEndTime(time) {
+      this.endTime = time
+    },
     setColdPreset(newCold) {
       this.coldPreset = newCold
     },
@@ -516,18 +610,23 @@ roomButton.addEventListener('click', (event) => {
       this.airConditionerOn
         ? (this.airConditionerOn = false)
         : (this.airConditionerOn = true)
+    },
+    toggleSchedule() {
+      this.showSchedule
+        ? (this.showSchedule = false)
+        : (this.showSchedule = true)
     }
-  };
-  const updatedRooms = [...rooms, room];
-  rooms = updatedRooms;
-  generateRooms();
-  modal.style.display = 'none';
-  roomNameInput.value = '';
-  roomSelect.innerHTML = '';
+  }
+  const updatedRooms = [...rooms, room]
+  rooms = updatedRooms
+  generateRooms()
+  modal.style.display = 'none'
+  roomNameInput.value = ''
+  roomSelect.innerHTML = ''
   rooms.forEach((room) => {
-    const option = document.createElement('option');
-    option.value = room.name;
-    option.textContent = room.name;
-    roomSelect.appendChild(option);
-  });
-});
+    const option = document.createElement('option')
+    option.value = room.name
+    option.textContent = room.name
+    roomSelect.appendChild(option)
+  })
+})

@@ -328,7 +328,7 @@ svg.point {
   align-items: center;
 }
 
-.room-control .top button.switch {
+.room-control .top button.switch, .room-control .top button.schedule-btn {
   width: 36px;
   height: 36px;
   display: flex;
@@ -345,6 +345,11 @@ svg.point {
 }
 
 .room-control .top button.switch ion-icon {
+  font-size: 24px;
+  pointer-events: none;
+}
+
+.room-control .top button.schedule-btn ion-icon {
   font-size: 24px;
   pointer-events: none;
 }
@@ -475,6 +480,26 @@ span.room-status {
   cursor: pointer;
 }
 
+.add-room-container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#add-room{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  width: 25px;
+  color: white;
+  height: 25px;
+  font-size: 20px;
+  background: var(--text-secondary);
+}
+
 #add-room-btn{
   border: none;
   background: var(--text-secondary);
@@ -494,6 +519,71 @@ span.room-status {
   font-size: 17px;
 }
 
+.schedule-container{
+display: flex;
+align-items: center;
+gap: 5px;
+}
+
+#schedule{
+  border: none;
+  background: var(--text-secondary);
+  font-size: 17px;
+  background-color: #d9d9d9;
+  border-radius: 25px;
+  cursor: pointer;
+  color: #58516d;
+}
+
+.schedule-form {
+  /* display: none;  */
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.show-schedule {
+  display: flex;
+}
+
+.hide-schedule {
+  display: none;
+}
+
+#start-time,
+#stop-time {
+  width: 85%;
+  padding: 5px;
+  border: none;
+  background-color: #eaeaeb;
+  border-radius: 4px;
+  outline: none;
+  font-size: 17px;
+}
+
+.stop-container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#submit-schedule{
+  border: none;
+  background: var(--text-secondary);
+  font-size: 17px;
+  background-color: var(--text-primary);
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  padding: 0px 5px;
+  /* margin-left: 5px; */
+  height: 35px;
+  
+}
+
 @media screen and (min-width: 1024px) {
   .main-container {
     display: flex;
@@ -510,14 +600,14 @@ span.room-status {
 
   .modal-content form label{
     margin-bottom: 5px;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
   }
 
   #add-room-btn{
     
     background: var(--text-secondary);
-    font-size: 24px;
+    font-size: 17px;
  
   }
   
