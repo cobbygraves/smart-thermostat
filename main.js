@@ -629,3 +629,15 @@ roomButton.addEventListener('click', (event) => {
     roomSelect.appendChild(option)
   })
 })
+
+
+module.exports = {
+  setInitialOverlay,
+  generateRooms,
+  setSelectedRoom,
+  setOverlay,
+  displayTime,
+  setIndicatorPoint,
+  calculatePointPosition,
+  rooms
+}
