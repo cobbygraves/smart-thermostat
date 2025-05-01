@@ -20,3 +20,6 @@ The warm and cold buttons in line(283 & 284) do not have event handlers attached
 
 **Incorrect If Condition When Saving Preset Bug**
 The if condition that validate the range of values valid for cold temperature ie(line 308) exceeds the valid values, ie. instead of showing the error when the cold temperature exceeds 24, it rather shows the error when 24 is inclusive.
+
+**Incorrect AC Feedback When Turn On Bug**
+The condition for checking the temperature to which the AC should cool or warm the room, ie.(line 351) is incorrect.
