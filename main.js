@@ -192,11 +192,7 @@ const coolOverlay = `linear-gradient(
 const warmOverlay = `linear-gradient(to bottom, rgba(236, 96, 98, 0.2), rgba(248, 210, 211, 0.13))`
 
 const setInitialOverlay = () => {
-  // document.querySelector(
-  //   '.room'
-  // ).style.backgroundImage = `url('${rooms[0].image}')`
-
-  document.querySelector('.room').style.backgroundImage = `${
+ document.querySelector('.room').style.backgroundImage = `${
     rooms[0].currTemp < 25 ? coolOverlay : warmOverlay
   }, url('${rooms[0].image}')`
 }
