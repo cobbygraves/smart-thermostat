@@ -1,26 +1,20 @@
-// const {
-//     rooms,
-//     setInitialOverlay,
-//     generateRooms,
-//     setSelectedRoom,
-//     setOverlay,
-//     displayTime,
-//     setIndicatorPoint,
-//     calculatePointPosition} = require('../main')
-// const { beforeEach } = require('node:test')
+require()
 
-// //testing character count
-// describe('character count functionality', () => {
-//     test('character count should include spaces', () => {
-//       expect(calculateCharacterCount('hello world', false)).toBe(11)
-//     })
+const { generateRooms, rooms } = require('../main')
+const { default: expect } = require('expect')
 
-//   })
+//testing room AC's are generated correctly
+test('4 rooms are generated on initial load', () => {
+  function setupDOM() {
+    document.body.innerHTML = ''
+    document.body.innerHTML = `<h1 id="temp"></h1><div class="rooms-control animate__animated animate__fadeIn"></div>`
+  }
 
-// //testing character limit
-// test('warning appears when character limit is reached', () => {
-//     beforeEach(() => {
-//       document.body.innerHTML = ''
-//     })
-//     document.body.innerHTML = ``
-// })
+  setupDOM()
+
+  const currentTemp = document.querySelector('#temp')
+  currentTemp.textContent = `${rooms[0].currTemp}°`
+  const roomsControlDiv = document.querySelector('.rooms-control')
+  generateRooms()
+  expect(roomsControlDiv.children).toHaveLength(4)
+})

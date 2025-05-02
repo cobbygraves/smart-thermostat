@@ -1,7 +1,7 @@
 // Room objects
 let rooms = [
   {
-    name: 'Living Room',
+    name: 'Livingroom',
     currTemp: 32,
     coldPreset: 20,
     warmPreset: 32,
@@ -192,15 +192,19 @@ const coolOverlay = `linear-gradient(
 const warmOverlay = `linear-gradient(to bottom, rgba(236, 96, 98, 0.2), rgba(248, 210, 211, 0.13))`
 
 const setInitialOverlay = () => {
- document.querySelector('.room').style.backgroundImage = `${
-    rooms[0].currTemp < 25 ? coolOverlay : warmOverlay
-  }, url('${rooms[0].image}')`
+  if (document.querySelector('.room')) {
+    document.querySelector('.room').style.backgroundImage = `${
+      rooms[0].currTemp < 25 ? coolOverlay : warmOverlay
+    }, url('${rooms[0].image}')`
+  }
 }
 
 const setOverlay = (room) => {
-  document.querySelector('.room').style.backgroundImage = `${
-    room.currTemp < 25 ? coolOverlay : warmOverlay
-  }, url('${room.image}')`
+  if (document.querySelector('.room')) {
+    document.querySelector('.room').style.backgroundImage = `${
+      room.currTemp < 25 ? coolOverlay : warmOverlay
+    }, url('${room.image}')`
+  }
 }
 
 // Set svg accordingly
@@ -235,17 +239,23 @@ const currentTemp = document.getElementById('temp')
 let selectedRoom = rooms[0].name
 
 // Set default temperature
-currentTemp.textContent = `${rooms[0].currTemp}°`
+if (currentTemp) {
+  currentTemp.textContent = `${rooms[0].currTemp}°`
+}
+// currentTemp.textContent = `${rooms[0].currTemp}°`
 
 setInitialOverlay()
-
-document.querySelector('.currentTemp').innerText = `${rooms[0].currTemp}°`
+if (document.querySelector('.currentTemp')) {
+  document.querySelector('.currentTemp').innerText = `${rooms[0].currTemp}°`
+}
 // Add new options from rooms array
 rooms.forEach((room) => {
   const option = document.createElement('option')
   option.value = room.name
   option.textContent = room.name
-  roomSelect.appendChild(option)
+  if (roomSelect) {
+    roomSelect.appendChild(option)
+  }
 })
 
 // Set current temperature to currently selected room
@@ -266,15 +276,15 @@ const setSelectedRoom = (selectedRoomName) => {
   document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
 }
 
-roomSelect.addEventListener('change', function () {
-  selectedRoom = this.value
-  //console.log(selectedRoom)
-  setSelectedRoom(selectedRoom)
-})
+if (roomSelect) {
+  roomSelect.addEventListener('change', function () {
+    selectedRoom = this.value
+    //console.log(selectedRoom)
+    setSelectedRoom(selectedRoom)
+  })
+}
 
-// Set preset temperatures
-const defaultSettings = document.querySelector('.default-settings')
-defaultSettings.addEventListener('click', function (event) {
+const handlePresetTemp = (event) => {
   const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
   if (event.target.id === 'warm') {
     // Handle warm button click
@@ -292,45 +302,55 @@ defaultSettings.addEventListener('click', function (event) {
   }
   generateRooms()
   setOverlay(room)
-})
+}
+
+// Set preset temperatures
+const defaultSettings = document.querySelector('.default-settings')
+if (defaultSettings) {
+  defaultSettings.addEventListener('click', handlePresetTemp)
+}
 
 // Increase temperature
-document.getElementById('increase').addEventListener('click', () => {
-  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
+if (document.getElementById('increase')) {
+  document.getElementById('increase').addEventListener('click', () => {
+    const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
 
-  // const increaseRoomTemperature = room.increaseTemp
+    // const increaseRoomTemperature = room.increaseTemp
 
-  if (room.currTemp < 32) {
-    // increaseRoomTemperature()
-    room.increaseTemp()
-  }
+    if (room.currTemp < 32) {
+      // increaseRoomTemperature()
+      room.increaseTemp()
+    }
 
-  setIndicatorPoint(room.currTemp)
-  currentTemp.textContent = `${room.currTemp}°`
-  generateRooms()
-  setOverlay(room)
-  document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
-})
+    setIndicatorPoint(room.currTemp)
+    currentTemp.textContent = `${room.currTemp}°`
+    generateRooms()
+    setOverlay(room)
+    document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
+  })
+}
 
 //Decrease temperature
-document.getElementById('reduce').addEventListener('click', () => {
-  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
-  // const decreaseRoomTemperature = room.decreaseTemp
+if (document.getElementById('reduce')) {
+  document.getElementById('reduce').addEventListener('click', () => {
+    const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
+    // const decreaseRoomTemperature = room.decreaseTemp
 
-  if (room.currTemp > 10) {
-    // decreaseRoomTemperature()
-    room.decreaseTemp()
-  }
-  setIndicatorPoint(room.currTemp)
-  currentTemp.textContent = `${room.currTemp}°`
-  generateRooms()
-  setOverlay(room)
-  document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
-})
+    if (room.currTemp > 10) {
+      // decreaseRoomTemperature()
+      room.decreaseTemp()
+    }
+    setIndicatorPoint(room.currTemp)
+    currentTemp.textContent = `${room.currTemp}°`
+    generateRooms()
+    setOverlay(room)
+    document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
+  })
+}
 
 const inputsDiv = document.querySelector('.inputs')
-
-inputsDiv.addEventListener('click', (event) => {
+//warm and cold preset event handler
+const warmAndColdHandler = (event) => {
   if (event.target.id === 'save') {
     const coolInput = document.getElementById('coolInput')
     const warmInput = document.getElementById('warmInput')
@@ -361,27 +381,38 @@ inputsDiv.addEventListener('click', (event) => {
       errorSpan.style.display = 'none'
     }
   }
-})
+}
+
+if (inputsDiv) {
+  inputsDiv.addEventListener('click', warmAndColdHandler)
+}
 
 // Toggle preset inputs
-document.getElementById('newPreset').addEventListener('click', () => {
+
+const showHidePreset = ()=>{
   if (inputsDiv.classList.contains('hidden')) {
     inputsDiv.classList.remove('hidden')
   }
-})
+}
+
+if (document.getElementById('newPreset')) {
+  document.getElementById('newPreset').addEventListener('click', showHidePreset)
+}
 
 // close inputs
-document.getElementById('close').addEventListener('click', () => {
-  const coolInput = document.getElementById('coolInput')
-  const warmInput = document.getElementById('warmInput')
-  const errorSpan = document.querySelector('.error')
+if (document.getElementById('close')) {
+  document.getElementById('close').addEventListener('click', () => {
+    const coolInput = document.getElementById('coolInput')
+    const warmInput = document.getElementById('warmInput')
+    const errorSpan = document.querySelector('.error')
 
-  errorSpan.style.display = 'none'
-  inputsDiv.classList.add('hidden')
+    errorSpan.style.display = 'none'
+    inputsDiv.classList.add('hidden')
 
-  coolInput.value = ''
-  warmInput.value = ''
-})
+    coolInput.value = ''
+    warmInput.value = ''
+  })
+}
 
 // Generate rooms
 const generateRooms = () => {
@@ -429,8 +460,9 @@ const generateRooms = () => {
     </div>
     `
   })
-
-  roomsControlContainer.innerHTML = roomsHTML
+  if (roomsControlContainer) {
+    roomsControlContainer.innerHTML = roomsHTML
+  }
 }
 const displayTime = (room) => {
   return `
@@ -477,8 +509,8 @@ const displayTime = (room) => {
 
 generateRooms()
 
-//Turn individual AC's on
-document.querySelector('.rooms-control').addEventListener('click', (e) => {
+//turn individual AC's on event listener
+const handleACOnOff = (e) => {
   if (e.target.classList.contains('switch')) {
     const room = rooms.find(
       (room) => room.name === e.target.parentNode.parentNode.id
@@ -500,27 +532,40 @@ document.querySelector('.rooms-control').addEventListener('click', (e) => {
     )
     room.toggleSchedule()
     generateRooms()
-  }else if(e.target.innerHTML === 'Schedule' &&
-  e.target.parentNode.parentNode.parentNode.parentNode.classList.contains('room-control')){
-    const room = rooms.find(
-      (room) => room.name === e.target.parentNode.parentNode.parentNode.parentNode.id
+  } else if (
+    e.target.innerHTML === 'Schedule' &&
+    e.target.parentNode.parentNode.parentNode.parentNode.classList.contains(
+      'room-control'
     )
-    const startTimeValue = document.querySelector(`#${room.name}-start-time`).value
+  ) {
+    const room = rooms.find(
+      (room) =>
+        room.name === e.target.parentNode.parentNode.parentNode.parentNode.id
+    )
+    const startTimeValue = document.querySelector(
+      `#${room.name}-start-time`
+    ).value
     const endTimeValue = document.querySelector(`#${room.name}-stop-time`).value
     room.startTime = startTimeValue
     room.endTime = endTimeValue
     room.toggleSchedule()
     generateRooms()
-  
   }
 
   if (e.target.classList.contains('room-name')) {
     setSelectedRoom(e.target.parentNode.parentNode.id)
   }
-})
+}
 
-// event listener to turn on all AC's
-turnAcsON.addEventListener('click', () => {
+//Turn individual AC's on
+if (document.querySelector('.rooms-control')) {
+  document
+    .querySelector('.rooms-control')
+    .addEventListener('click', handleACOnOff)
+}
+
+// Turn on all AC's hanlder
+const turnOnAllAcs = () => {
   if (turnAcsON.innerHTML === 'Turn Off All ACs') {
     rooms.forEach((room) => {
       if (room.airConditionerOn) {
@@ -540,19 +585,26 @@ turnAcsON.addEventListener('click', () => {
   })
   turnAcsON.style.background = '#FFAE33'
   turnAcsON.innerHTML = 'Turn Off All ACs'
-})
+}
+
+// event listener to turn on all AC's
+if (turnAcsON) {
+  turnAcsON.addEventListener('click', turnOnAllAcs)
+}
 
 //event listner to add a room to the array
 const addRoomButton = document.querySelector('#add-room')
 const modal = document.querySelector('#add-room-modal')
 const closeButton = document.querySelector('#close-modal')
-const roomNameInput = document.querySelector('#room-name')
 const roomButton = document.querySelector('#add-room-btn')
+const roomNameInput = document.querySelector('#room-name')
 
 // Open the modal when the button is clicked
-addRoomButton.addEventListener('click', () => {
-  modal.style.display = 'block'
-})
+if (addRoomButton) {
+  addRoomButton.addEventListener('click', () => {
+    modal.style.display = 'block'
+  })
+}
 
 // Close the modal when clicking outside of it
 window.addEventListener('click', (event) => {
@@ -562,82 +614,83 @@ window.addEventListener('click', (event) => {
 })
 
 // Close the modal when clicking the close button
-closeButton.addEventListener('click', () => {
-  modal.style.display = 'none'
-})
+if (closeButton) {
+  closeButton.addEventListener('click', () => {
+    modal.style.display = 'none'
+  })
+}
+
+//add room event handler
+const addRoomHandler = (event) => {
+  event.preventDefault()
+  if (roomNameInput && modal && roomSelect) {
+    const roomName = roomNameInput.value
+    const room = {
+      name: roomName,
+      currTemp: 25,
+      coldPreset: 20,
+      warmPreset: 32,
+      image: './assets/default-room.avif',
+      airConditionerOn: false,
+      startTime: '12:00',
+      endTime: '23:59',
+      showSchedule: false,
+      setCurrTemp(temp) {
+        this.currTemp = temp
+      },
+      setStartTime(time) {
+        this.startTime = time
+      },
+      setEndTime(time) {
+        this.endTime = time
+      },
+      setColdPreset(newCold) {
+        this.coldPreset = newCold
+      },
+
+      setWarmPreset(newWarm) {
+        this.warmPreset = newWarm
+      },
+
+      decreaseTemp() {
+        this.currTemp--
+      },
+
+      increaseTemp() {
+        this.currTemp++
+      },
+      toggleAircon() {
+        this.airConditionerOn
+          ? (this.airConditionerOn = false)
+          : (this.airConditionerOn = true)
+      },
+      toggleSchedule() {
+        this.showSchedule
+          ? (this.showSchedule = false)
+          : (this.showSchedule = true)
+      }
+    }
+    const updatedRooms = [...rooms, room]
+    rooms = updatedRooms
+    generateRooms()
+    modal.style.display = 'none'
+    roomNameInput.value = ''
+    roomSelect.innerHTML = ''
+    rooms.forEach((room) => {
+      const option = document.createElement('option')
+      option.value = room.name
+      option.textContent = room.name
+      roomSelect.appendChild(option)
+    })
+  }
+}
 
 // Add a room when the button is clicked
-roomButton.addEventListener('click', (event) => {
-  event.preventDefault()
-  const roomName = roomNameInput.value
-  if (roomName.trim() === '') return
-  const room = {
-    name: roomName,
-    currTemp: 25,
-    coldPreset: 20,
-    warmPreset: 32,
-    image: './assets/default-room.avif',
-    airConditionerOn: false,
-    startTime: '12:00',
-    endTime: '23:59',
-    showSchedule: false,
-    setCurrTemp(temp) {
-      this.currTemp = temp
-    },
-    setStartTime(time) {
-      this.startTime = time
-    },
-    setEndTime(time) {
-      this.endTime = time
-    },
-    setColdPreset(newCold) {
-      this.coldPreset = newCold
-    },
-
-    setWarmPreset(newWarm) {
-      this.warmPreset = newWarm
-    },
-
-    decreaseTemp() {
-      this.currTemp--
-    },
-
-    increaseTemp() {
-      this.currTemp++
-    },
-    toggleAircon() {
-      this.airConditionerOn
-        ? (this.airConditionerOn = false)
-        : (this.airConditionerOn = true)
-    },
-    toggleSchedule() {
-      this.showSchedule
-        ? (this.showSchedule = false)
-        : (this.showSchedule = true)
-    }
-  }
-  const updatedRooms = [...rooms, room]
-  rooms = updatedRooms
-  generateRooms()
-  modal.style.display = 'none'
-  roomNameInput.value = ''
-  roomSelect.innerHTML = ''
-  rooms.forEach((room) => {
-    const option = document.createElement('option')
-    option.value = room.name
-    option.textContent = room.name
-    roomSelect.appendChild(option)
-  })
-})
-
+if (roomButton) {
+  roomButton.addEventListener('click', addRoomHandler)
+}
 
 module.exports = {
-  setInitialOverlay,
   generateRooms,
-  setSelectedRoom,
-  setOverlay,
-  displayTime,
-  setIndicatorPoint,
-  calculatePointPosition,
   rooms
 }
