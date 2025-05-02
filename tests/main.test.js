@@ -1,7 +1,6 @@
 require()
 
 const { generateRooms, rooms } = require('../main')
-const { default: expect } = require('expect')
 
 //testing room AC's are generated correctly
 test('4 rooms are generated on initial load', () => {
