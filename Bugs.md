@@ -3,9 +3,6 @@
 **Warm and Cold Overlay Mismatch Bug**
 The value for the warmOverlay and coldOverlay constant variables doesn't represent what they are intended. In other words their values have been swapped, and therefore result in wrong overlay for the warm and cold temperature.(line 145 & 151)
 
-**Initial Overlay Duplicate Code**
-The setInitialOverlay functionality has two seperate code doing the same thing(line 154 & 158), ie. setting the initial overlay of the room, when selected.
-
 **Invalid Room Options Value Bug**
 The option value passed to the rooms inside the forEach loop(line 206) is supposed to be the name of the room and not the room object itself.
 
