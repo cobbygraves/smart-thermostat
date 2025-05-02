@@ -225,7 +225,10 @@ const calculatePointPosition = (currTemp) => {
 
 const setIndicatorPoint = (currTemp) => {
   const position = calculatePointPosition(currTemp)
-  svgPoint.style.transform = `translate(${position.translateX}px, ${position.translateY}px)`
+  if (svgPoint) {
+    svgPoint.style.transform = `translate(${position.translateX}px, ${position.translateY}px)`
+  }
+  //svgPoint.style.transform = `translate(${position.translateX}px, ${position.translateY}px)`
 }
 
 // Turn all acs on
@@ -310,42 +313,54 @@ if (defaultSettings) {
   defaultSettings.addEventListener('click', handlePresetTemp)
 }
 
-// Increase temperature
-if (document.getElementById('increase')) {
-  document.getElementById('increase').addEventListener('click', () => {
-    const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
+const increaseTempHandler = () => {
+  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
 
-    // const increaseRoomTemperature = room.increaseTemp
+  // const increaseRoomTemperature = room.increaseTemp
 
-    if (room.currTemp < 32) {
-      // increaseRoomTemperature()
-      room.increaseTemp()
-    }
+  if (room.currTemp < 32) {
+    // increaseRoomTemperature()
+    room.increaseTemp()
+  }
 
-    setIndicatorPoint(room.currTemp)
+  setIndicatorPoint(room.currTemp)
+  if (currentTemp) {
     currentTemp.textContent = `${room.currTemp}°`
     generateRooms()
     setOverlay(room)
     document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
-  })
+  }
+}
+
+// Increase temperature
+if (document.getElementById('increase')) {
+  document
+    .getElementById('increase')
+    .addEventListener('click', increaseTempHandler)
+}
+
+const decreaseTempHandler = () => {
+  const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
+  // const decreaseRoomTemperature = room.decreaseTemp
+
+  if (room.currTemp > 10) {
+    // decreaseRoomTemperature()
+    room.decreaseTemp()
+  }
+  setIndicatorPoint(room.currTemp)
+  if (currentTemp) {
+    currentTemp.textContent = `${room.currTemp}°`
+    generateRooms()
+    setOverlay(room)
+    document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
+  }
 }
 
 //Decrease temperature
 if (document.getElementById('reduce')) {
-  document.getElementById('reduce').addEventListener('click', () => {
-    const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
-    // const decreaseRoomTemperature = room.decreaseTemp
-
-    if (room.currTemp > 10) {
-      // decreaseRoomTemperature()
-      room.decreaseTemp()
-    }
-    setIndicatorPoint(room.currTemp)
-    currentTemp.textContent = `${room.currTemp}°`
-    generateRooms()
-    setOverlay(room)
-    document.querySelector('.currentTemp').innerText = `${room.currTemp}°`
-  })
+  document
+    .getElementById('reduce')
+    .addEventListener('click', decreaseTempHandler)
 }
 
 const inputsDiv = document.querySelector('.inputs')
@@ -389,7 +404,7 @@ if (inputsDiv) {
 
 // Toggle preset inputs
 
-const showHidePreset = ()=>{
+const showHidePreset = () => {
   if (inputsDiv.classList.contains('hidden')) {
     inputsDiv.classList.remove('hidden')
   }
@@ -692,5 +707,6 @@ if (roomButton) {
 
 module.exports = {
   generateRooms,
-  rooms
+  decreaseTempHandler,
+  increaseTempHandler
 }
