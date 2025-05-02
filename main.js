@@ -314,6 +314,8 @@ if (defaultSettings) {
 }
 
 const increaseTempHandler = () => {
+  const currentTemp = document.getElementById('temp')
+  console.log('increaseTempHandler called');
   const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
 
   // const increaseRoomTemperature = room.increaseTemp
@@ -325,6 +327,7 @@ const increaseTempHandler = () => {
 
   setIndicatorPoint(room.currTemp)
   if (currentTemp) {
+    console.log('Updating currentTemp:', room.currTemp);
     currentTemp.textContent = `${room.currTemp}°`
     generateRooms()
     setOverlay(room)
@@ -340,6 +343,7 @@ if (document.getElementById('increase')) {
 }
 
 const decreaseTempHandler = () => {
+  const currentTemp = document.getElementById('temp')
   const room = rooms.find((currRoom) => currRoom.name === selectedRoom)
   // const decreaseRoomTemperature = room.decreaseTemp
 
@@ -708,5 +712,6 @@ if (roomButton) {
 module.exports = {
   generateRooms,
   decreaseTempHandler,
-  increaseTempHandler
+  increaseTempHandler, 
+  rooms
 }
